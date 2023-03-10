@@ -44,31 +44,34 @@ static void	send_message(int pi, char *str)
 	char	c;
 	int		i;
 
-	i = 8;
 	while (*str++)
 	{
+		i = 8;
 		c = *str;
 		while (i--)
 		{
-			if (1 & (c >> i))
+			if (1 & (c << i))
+			{
 				kill(pi, SIGUSR1);
+			}
 			else
+			{
 				kill(pi, SIGUSR2);
-			usleep(800);
+			}
+			usleep(700);
 		}
-		
 	}
-	
 }
 
 int	main(int ac, char **av)
 {
 	int	pi;
 
-	pi = ft_atoi(av[1]);
 	if(ac != 3 || !pi)
 	{
-		ft_printf("Wrong parameters try : \n[./client] [Server PID] [Message]");
+		ft_printf("Wrong parameters try : \n[./client] [Server PID] [Message]\n");
+        exit(EXIT_FAILURE);
 	}
+	pi = ft_atoi(av[1]);
 	send_message(pi, av[2]);
 }
