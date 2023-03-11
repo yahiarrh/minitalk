@@ -43,14 +43,15 @@ static void	send_message(int pi, char *str)
 {
 	char	c;
 	int		i;
+	int		f = 0;
 
-	while (*str++)
+	while (str[f])
 	{
-		i = 8;
-		c = *str;
-		while (i--)
+		i = 7;
+		c = str[f];
+		while (i>=0)
 		{
-			if (1 & (c << i))
+			if (1 & (c >> i))
 			{
 				kill(pi, SIGUSR1);
 			}
@@ -59,7 +60,9 @@ static void	send_message(int pi, char *str)
 				kill(pi, SIGUSR2);
 			}
 			usleep(700);
+			i--;
 		}
+		f++;
 	}
 }
 
