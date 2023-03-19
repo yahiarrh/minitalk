@@ -6,13 +6,13 @@
 /*   By: yrrhaibi <yrrhaibi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 18:22:17 by yrrhaibi          #+#    #+#             */
-/*   Updated: 2023/03/17 15:42:48 by yrrhaibi         ###   ########.fr       */
+/*   Updated: 2023/03/19 13:15:12 by yrrhaibi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-int	ft_putchar(char c)
+static int	ft_putchar(char c)
 {
 	write(1, &c, 1);
 	return (0);
@@ -54,11 +54,13 @@ int	main(int ac, char **av)
 	(void)av;
 	if (ac != 1)
 	{
-		ft_printf("Wrong parameters try : \n[./server]");
+		ft_printf("%sWrong parameters try : \n%s[./server]\n",
+			COLOR_RED, COLOR_GREEN);
+		exit (1);
 	}
 	sa.sa_sigaction = handler;
 	sa.sa_flags = SA_SIGINFO;
-	ft_printf("PID : %d \n", getpid());
+	ft_printf("%sPID : %d \n", COLOR_BLUE, getpid());
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
 	while (1)

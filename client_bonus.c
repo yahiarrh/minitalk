@@ -6,7 +6,7 @@
 /*   By: yrrhaibi <yrrhaibi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 12:31:02 by yrrhaibi          #+#    #+#             */
-/*   Updated: 2023/03/18 08:38:35 by yrrhaibi         ###   ########.fr       */
+/*   Updated: 2023/03/19 13:14:34 by yrrhaibi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	ft_atoi(const char *str)
 		r = (r * 10) + (str[i++] - '0');
 	if ((str[i] < 48 || str[i] > 57) && str[i])
 	{
-		ft_printf("invalid pid");
+		ft_printf("%sinvalid pid\n", COLOR_RED);
 		exit(1);
 	}
 	return (r * s);
@@ -83,24 +83,29 @@ static void	send_message(int pi, char *str)
 static void	myhundler(int signal)
 {
 	if (signal == SIGUSR1)
-		ft_printf("message rah mcha\n");
+		ft_printf("%smessage rah mcha\n", COLOR_BLUE);
 }
 
 int	main(int ac, char **av)
 {
 	int	pi;
 
-	if (ft_atoi(av[1]) <= 0)
+	if (ac == 3)
 	{
-		ft_printf("invalid PID");
-		exit (1);
+		if (ft_atoi(av[1]) <= 0)
+		{
+			ft_printf("%sinvalid PID\n", COLOR_RED);
+			exit (1);
+		}
+		signal(SIGUSR1, &myhundler);
+		pi = ft_atoi(av[1]);
+		send_message(pi, av[2]);
 	}
-	if (ac != 3)
+	else
 	{
-		ft_printf("Wrong parameters try : \n[./client] [Server PID] [Message]\n");
+		ft_printf("%sWrong parameters try:\n%s[./client] [Server PID] [Message]",
+			COLOR_RED, COLOR_GREEN);
 		exit(EXIT_FAILURE);
 	}
-	signal(SIGUSR1, &myhundler);
-	pi = ft_atoi(av[1]);
-	send_message(pi, av[2]);
+	return (0);
 }

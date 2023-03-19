@@ -6,7 +6,7 @@
 /*   By: yrrhaibi <yrrhaibi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 12:31:02 by yrrhaibi          #+#    #+#             */
-/*   Updated: 2023/03/18 08:32:33 by yrrhaibi         ###   ########.fr       */
+/*   Updated: 2023/03/19 13:18:05 by yrrhaibi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	ft_atoi(const char *str)
 		r = (r * 10) + (str[i++] - '0');
 	if ((str[i] < 48 || str[i] > 57) && str[i])
 	{
-		ft_printf("invalid pid");
+		ft_printf("%sinvalid pid\n", COLOR_RED);
 		exit(1);
 	}
 	return (r * s);
@@ -68,16 +68,21 @@ int	main(int ac, char **av)
 {
 	int	pi;
 
-	if (ft_atoi(av[1]) <= 0)
+	if (ac == 3)
 	{
-		ft_printf("invalid PID");
-		exit (1);
+		if (ft_atoi(av[1]) <= 0)
+		{
+			ft_printf("%sinvalid PID\n", COLOR_RED);
+			exit (1);
+		}
+		pi = ft_atoi(av[1]);
+		send_message(pi, av[2]);
 	}
-	if (ac != 3)
+	else
 	{
-		ft_printf("Wrong parameters try : \n[./client] [Server PID] [Message]\n");
+		ft_printf("%sWrong parameters try:\n%s[./client] [ServerPID] [Message]\n",
+			COLOR_RED, COLOR_GREEN);
 		exit (EXIT_FAILURE);
-	}
-	pi = ft_atoi(av[1]);
-	send_message(pi, av[2]);
+	}	
+	return (0);
 }
