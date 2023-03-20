@@ -20,16 +20,16 @@ all : $(NAME) $(NAME2)
 	@$(CC) -c $<
 
 server : server.o ft_printf.o
-	@$(CC) -o server server.o ft_printf.o
+	@$(CC) -o $(NAME) server.o ft_printf.o
 	@echo "$(GREEN) SERVER READY ✅"
 
 client : client.o ft_printf.o
-	@$(CC) -o client client.o ft_printf.o
+	@$(CC) -o $(NAME2) client.o ft_printf.o
 	@echo "$(GREEN) CLIENT READY ✅"
 
 bonus : $(OBJ) minitalk_bonus.h
-	@$(CC) -o server server_bonus.o ft_printf.o
-	@$(CC) -o client client_bonus.o ft_printf.o
+	@$(CC) -o $(NAME) server_bonus.o ft_printf.o
+	@$(CC) -o $(NAME2) client_bonus.o ft_printf.o
 	@echo "$(GREEN) BONUS SERVER & CLIENT ARE READY ✅"
 
 clean :
@@ -39,3 +39,5 @@ clean :
 fclean : clean
 	@rm -rf $(NAME) $(NAME2)
 	@echo "$(RED) ALL CLEAN 🔥"
+
+re : fclean all
